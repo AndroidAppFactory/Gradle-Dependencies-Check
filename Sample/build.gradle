@@ -1,0 +1,72 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+
+    ext {
+        minSdkVersionApiLevel = 14
+        targetSdkVersionApiLevel = 28
+
+        compileSdkVersion = 28
+        buildToolsVersion = "28.0.3"
+
+        versionCode = 1
+        versionName = "1.0.0"
+
+        kotlin_version = '1.2.71'
+        agp_version = '3.2.1'
+
+        EVN_JAVA_1_7 = JavaVersion.VERSION_1_7
+        EVN_JAVA_1_8 = JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        maven { url './libs/maven_local' }
+//        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "http://maven.oa.com/nexus/content/repositories/androidbuild" }
+        maven { url "http://maven.oa.com/nexus/content/groups/androidbuild" }
+        maven { url "http://maven.oa.com/nexus/content/repositories/google-maven/" }
+
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$agp_version"
+        classpath "com.bihe0832:GradleDependenciesCheck:1.0.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+
+
+}
+
+subprojects {
+    /************************** 应用插件 Start ***********************/
+    //应用插件
+    apply plugin: 'com.bihe0832.gradleDependenciesCheck'
+    //配置插件相关配置
+    GradleDependenciesCheckConfig {
+        /**
+         * 检查结果提示类型:
+         *  1 以warning形式在命令行提示
+         *  2 直接编辑报错，并提示错误
+         */
+        showResultType = 1
+    }
+    /************************** 应用插件 End ***********************/
+
+    afterEvaluate { Project project ->
+        project.getTasks().getByName('clean').doFirst {
+            delete "build"
+        }
+        project.getTasks().getByName('clean').dependsOn("checkGradleDependencies")
+        project.getTasks().getByName('preBuild').dependsOn("checkGradleDependencies")
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url './libs/maven_local' }
+//        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "http://maven.oa.com/nexus/content/repositories/androidbuild" }
+        maven { url "http://maven.oa.com/nexus/content/groups/androidbuild" }
+        maven { url "http://maven.oa.com/nexus/content/repositories/google-maven/" }
+    }
+
+}
+

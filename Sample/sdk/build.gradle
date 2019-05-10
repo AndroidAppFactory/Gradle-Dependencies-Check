@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+
+    compileSdkVersion = rootProject.ext.compileSdkVersion
+    buildToolsVersion = rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersionApiLevel
+        targetSdkVersion rootProject.ext.targetSdkVersionApiLevel
+        versionCode = rootProject.ext.versionCode
+        versionName = rootProject.ext.versionName
+        buildConfigField "boolean", "ENABLE_DEBUG", "false"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility = rootProject.ext.EVN_JAVA_1_7
+        targetCompatibility = rootProject.ext.EVN_JAVA_1_7
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = true
+            proguardFiles './../proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled = false
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:27.0.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+

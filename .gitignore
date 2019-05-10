@@ -6,3 +6,4 @@ local.properties
 build
 captures
 gradle.properties
+Sample/libs/maven_local

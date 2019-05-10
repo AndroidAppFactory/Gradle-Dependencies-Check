@@ -127,8 +127,8 @@ http://blog.bihe0832.com/android-as-gradle-config.html)
 
 ## 参考及文章
 
-- 开发第一个gradle插件
+- 开发第一个gradle插件（待写）
 
-- gradle插件调试方法
+- gradle插件调试方法（待写）
 
-- 如何发布gradle插件到gradle插件库
+- 如何发布gradle插件到gradle插件库（待写）

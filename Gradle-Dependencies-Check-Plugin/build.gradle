@@ -1,13 +1,9 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
-apply plugin: "com.gradle.plugin-publish"
-
-version = "1.0.2"
-group "com.bihe0832"
-archivesBaseName = 'GradleDependenciesCheck'
 
 repositories {
     maven { url "https://plugins.gradle.org/m2/" }
+    jcenter()
 }
 
 dependencies {
@@ -17,6 +13,7 @@ dependencies {
 
 allprojects {
     repositories {
+        jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
     }
 }
@@ -27,6 +24,25 @@ compileGroovy {
     options.encoding = "UTF-8"
 }
 
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        //发布到 https://plugins.gradle.org
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.10"
+        //发布到jcenter
+        classpath 'com.novoda:bintray-release:0.9.1'
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+//发布到 本地
 uploadArchives {
     repositories {
         mavenDeployer {
@@ -35,23 +51,12 @@ uploadArchives {
     }
 }
 
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.9.10"
-    }
-}
+version = "1.0.2"
+group "com.bihe0832"
+archivesBaseName = 'GradleDependenciesCheck'
 
-dependencies {
-    compile gradleApi()
-    compile localGroovy() //not needed for Java plugins
-    // other dependencies that your plugin requires
-}
-
+//发布到 https://plugins.gradle.org
+apply plugin: "com.gradle.plugin-publish"
 pluginBundle {
     website = 'https://github.com/bihe0832/Gradle-Dependencies-Check'
     vcsUrl = 'https://github.com/bihe0832/Gradle-Dependencies-Check.git'
@@ -60,7 +65,18 @@ pluginBundle {
     plugins {
         greetingsPlugin {
             id = 'com.bihe0832.gradleDependenciesCheck' // 就是刚才定义属性文件时使用的ID
-            displayName = 'GradleDependenciesCheck' // 添加依赖时使用的名字
+            displayName = archivesBaseName // 添加依赖时使用的名字
         }
     }
+}
+
+//发布到jcenter
+apply plugin: 'com.novoda.bintray-release'//添加
+publish {
+    userOrg = 'bihe0832'
+    groupId = group
+    artifactId = archivesBaseName
+    publishVersion = version
+    desc = 'A plugin to check wherether the configuration of your gradle dependencies have conflicts or not!'
+    website = 'https://github.com/bihe0832/Gradle-Dependencies-Check'
 }

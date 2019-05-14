@@ -19,16 +19,13 @@ buildscript {
     }
 
     repositories {
-        maven { url './libs/maven_local' }
-//        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "http://maven.oa.com/nexus/content/repositories/androidbuild" }
-        maven { url "http://maven.oa.com/nexus/content/groups/androidbuild" }
-        maven { url "http://maven.oa.com/nexus/content/repositories/google-maven/" }
-
+//        maven { url './libs/maven_local' }
+        jcenter()
+        google()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
-        classpath "com.bihe0832:GradleDependenciesCheck:1.0.1"
+        classpath "com.bihe0832:GradleDependenciesCheck:1.0.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 
@@ -61,12 +58,9 @@ subprojects {
 
 allprojects {
     repositories {
-        maven { url './libs/maven_local' }
-//        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "http://maven.oa.com/nexus/content/repositories/androidbuild" }
-        maven { url "http://maven.oa.com/nexus/content/groups/androidbuild" }
-        maven { url "http://maven.oa.com/nexus/content/repositories/google-maven/" }
+//        maven { url './libs/maven_local' }
+        jcenter()
+        google()
     }
-
 }
 

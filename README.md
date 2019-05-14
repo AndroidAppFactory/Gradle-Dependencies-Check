@@ -8,11 +8,16 @@
 
 ### 在项目中添加插件
 
-- 在repositories中添加插件仓库：
+- 在项目根目录的build.gradle中添加插件仓库：
 	
-	    repositories {
-	        maven { url "https://plugins.gradle.org/m2/" }
-	    }
+	    buildscript {
+	       repositories {
+		        jcenter()
+		    }
+		    dependencies {
+		        classpath "com.bihe0832:GradleDependenciesCheck:1.0.2"
+		    }
+		}
 
 -	引入插件，并添加插件相关配置
 
@@ -37,14 +42,14 @@
 
 - 将插件添加到其余系统任务中自动执行
 
-		afterEvaluate { Project project ->
-	        project.getTasks().getByName('clean').dependsOn("checkGradleDependencies")
-	        project.getTasks().getByName('preBuild').dependsOn("checkGradleDependencies")
+		subprojects {
+			afterEvaluate { Project project ->
+		        project.getTasks().getByName('clean').dependsOn("checkGradleDependencies")
+		        project.getTasks().getByName('preBuild').dependsOn("checkGradleDependencies")
+		    }
 	    }
 
-完整的插件使用方式，可以参考项目的事例Sample的根目录的build.gradle
-
-### 运行插件
+完整的插件使用方式，可以参考项目的事例Sample的根目录的build.gradle### 运行插件
 
 - 在IED右侧的Gradle窗口选择others，然后点击`checkGradleDependencies`
 - 直接在命令行运行`./gradlew  checkGradleDependencies`
@@ -89,7 +94,7 @@
 		
 		4:39:17 PM: Task execution finished 'listGradleDependencies'.
 	
-## 工程介绍
+## 项目介绍
 
 ### 代码目录
 
@@ -101,7 +106,7 @@
 		│
 		└─── README.md 项目介绍
 	   	
-### 使用方法
+### 本地使用方法
 
 - 如何修改配置及运行工程，请参考本人博客：[终端基于gradle的开源项目运行环境配置指引](
 http://blog.bihe0832.com/android-as-gradle-config.html)
@@ -113,7 +118,7 @@ http://blog.bihe0832.com/android-as-gradle-config.html)
 
 		    repositories {
 			        maven { url './libs/maven_local' }
-			//        maven { url "https://plugins.gradle.org/m2/" }
+			//        jcenter()
 			}
 	- 在Sample运行clean，查看效果
 

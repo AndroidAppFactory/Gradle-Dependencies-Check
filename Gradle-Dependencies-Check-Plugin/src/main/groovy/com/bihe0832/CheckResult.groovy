@@ -1,4 +1,6 @@
-package com.bihe0832;
+package com.bihe0832
+
+import org.gradle.api.GradleException
 
 /**
  *
@@ -7,7 +9,6 @@ package com.bihe0832;
  * Description: Description
  *
  */
-
 class CheckResult {
     //保存所有的依赖关联到的版本号
     static HashMap<String,HashMap<String,ArrayList>> sGroupList = new HashMap<>()
@@ -68,11 +69,12 @@ class CheckResult {
             }
         }
     }
+
     static void printWarningMsg(String groupAndId){
-        println("[WARNING] " + getErrorInfo(groupAndId))
+        System.err.println("WARNING: " + getErrorInfo(groupAndId))
     }
 
     static void throwRunningException(String groupAndId){
-       throw new RuntimeException("[ERROR] " + getErrorInfo(groupAndId))
+       throw new GradleException("ERROR: " + getErrorInfo(groupAndId))
     }
 }

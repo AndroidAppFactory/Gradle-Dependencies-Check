@@ -44,16 +44,22 @@ class CheckResult {
     }
 
     static String getErrorInfo(String groupAndId){
-        HashMap versionList = sGroupList.get(groupAndId)
-        String result  = groupAndId  + " has different version: \n"
-        for(version in versionList){
-            result = result + "\t"  + version.key + " found from: \n"
-            ArrayList sourceList = version.value
-            for(groupWithVersion in sourceList){
-                result = result + "\t \t " + groupWithVersion + "\n"
+        try {
+            HashMap versionList = sGroupList.get(groupAndId)
+            String result  = groupAndId  + " has different version: \n"
+            for(version in versionList){
+                result = result + "\t"  + version.key + " found from: \n"
+                ArrayList sourceList = version.value
+                for (int i = 0; i < sourceList.size(); i++) {
+                    result = result + "\t \t " + sourceList.get(i) + "\n"
+                }
             }
+            return result
+        }catch(Exception e){
+            e.printStackTrace()
+            System.err.println("Error: " + e.getStackTrace())
+            return ""
         }
-        return result
     }
 
     static void doCheck(int showResultType, String groupAndId, String version, String source){

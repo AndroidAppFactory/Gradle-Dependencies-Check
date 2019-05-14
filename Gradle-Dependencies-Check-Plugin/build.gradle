@@ -51,7 +51,7 @@ uploadArchives {
     }
 }
 
-version = "1.0.2"
+version = "1.0.3"
 group "com.bihe0832"
 archivesBaseName = 'GradleDependenciesCheck'
 

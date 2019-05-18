@@ -1,4 +1,6 @@
-package com.bihe0832;
+package com.bihe0832
+
+import org.gradle.api.GradleException
 
 /**
  *
@@ -7,7 +9,6 @@ package com.bihe0832;
  * Description: Description
  *
  */
-
 class CheckResult {
     //保存所有的依赖关联到的版本号
     static HashMap<String,HashMap<String,ArrayList>> sGroupList = new HashMap<>()
@@ -35,7 +36,7 @@ class CheckResult {
             versionMap.put(version,sourceList)
             sGroupList.put(groupAndId,versionMap)
         }
-        if(sGroupList.get(groupAndId).size() > 1){
+        if(sGroupList.get(groupAndId) != null && sGroupList.get(groupAndId).size() > 1){
             return false
         }else{
             return true
@@ -43,16 +44,22 @@ class CheckResult {
     }
 
     static String getErrorInfo(String groupAndId){
-        HashMap versionList = sGroupList.get(groupAndId)
-        String result  = groupAndId  + " has different version: \n"
-        for(version in versionList){
-            result = result + "\t"  + version.key + " found from: \n"
-            ArrayList sourceList = version.value
-            for(groupWithVersion in sourceList){
-                result = result + "\t \t " + groupWithVersion + "\n"
+        try {
+            HashMap versionList = sGroupList.get(groupAndId)
+            String result  = groupAndId  + " has different version: \n"
+            for(version in versionList){
+                result = result + "\t"  + version.key + " found from: \n"
+                ArrayList sourceList = version.value
+                for (int i = 0; i < sourceList.size(); i++) {
+                    result = result + "\t \t " + sourceList.get(i) + "\n"
+                }
             }
+            return result
+        }catch(Exception e){
+            e.printStackTrace()
+            System.err.println("Error: " + e.getStackTrace())
+            return ""
         }
-        return result
     }
 
     static void doCheck(int showResultType, String groupAndId, String version, String source){
@@ -68,11 +75,12 @@ class CheckResult {
             }
         }
     }
+
     static void printWarningMsg(String groupAndId){
-        println("[WARNING] " + getErrorInfo(groupAndId))
+        System.err.println("WARNING: " + getErrorInfo(groupAndId))
     }
 
     static void throwRunningException(String groupAndId){
-       throw new RuntimeException("[ERROR] " + getErrorInfo(groupAndId))
+       throw new GradleException("ERROR: " + getErrorInfo(groupAndId))
     }
 }

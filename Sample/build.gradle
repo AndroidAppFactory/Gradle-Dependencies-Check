@@ -19,7 +19,7 @@ buildscript {
     }
 
     repositories {
-//        maven { url './libs/maven_local' }
+        maven { url './libs/maven_local' }
         jcenter()
         google()
     }
@@ -58,7 +58,7 @@ subprojects {
 
 allprojects {
     repositories {
-//        maven { url './libs/maven_local' }
+        maven { url './libs/maven_local' }
         jcenter()
         google()
     }

@@ -36,7 +36,7 @@ class CheckResult {
             versionMap.put(version,sourceList)
             sGroupList.put(groupAndId,versionMap)
         }
-        if(sGroupList.get(groupAndId).size() > 1){
+        if(sGroupList.get(groupAndId) != null && sGroupList.get(groupAndId).size() > 1){
             return false
         }else{
             return true

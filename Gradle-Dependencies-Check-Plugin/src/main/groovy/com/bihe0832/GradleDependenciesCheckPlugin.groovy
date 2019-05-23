@@ -46,7 +46,6 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
                             String groupAndId = dr.selected.moduleVersion.module
                             String version = dr.selected.moduleVersion.version
                             String source = project.name + ":"+ groupAndId + ":"+ version
-
                             if(null != version && !version.equalsIgnoreCase("unspecified") && version.length() > 0){
                                 checkDependencies(extension.showResultType ,source, dr)
                             }
@@ -84,7 +83,9 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
             ResolvedDependencyResult dr = result
             String groupAndId = dr.selected.moduleVersion.module
             String version = dr.selected.moduleVersion.version
-            CheckResult.doCheck(type,groupAndId,version,source)
+            if(null != version && !version.equalsIgnoreCase("unspecified") && version.length() > 0){
+                CheckResult.doCheck(type,groupAndId,version,source)
+            }
             dr.selected.dependencies.each { DependencyResult subDep ->
                 checkDependencies(type ,source, subDep)
             }

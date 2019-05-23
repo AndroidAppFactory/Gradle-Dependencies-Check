@@ -30,6 +30,7 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
 
         project.task(TASK_LIST_DEPENDENCIE) << {
             println(TASK_LIST_DEPENDENCIE + " start ...")
+
             project.configurations.each { org.gradle.api.artifacts.Configuration conf ->
                 if(canBeResolved(conf) && needResolved(conf)) {
                     conf.incoming.resolutionResult.root.dependencies.each { DependencyResult dr ->
@@ -46,7 +47,9 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
                             String version = dr.selected.moduleVersion.version
                             String source = project.name + ":"+ groupAndId + ":"+ version
 
-                            checkDependencies(extension.showResultType ,source, dr)
+                            if(null != version && !version.equalsIgnoreCase("unspecified") && version.length() > 0){
+                                checkDependencies(extension.showResultType ,source, dr)
+                            }
                         }else{
 //                            println("Could not resolve $dr.requested.displayName")
                         }

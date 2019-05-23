@@ -46,12 +46,14 @@ dependencies {
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: 'file:./../Sample/libs/maven_local')
+//            repository(url: 'file:./../Sample/libs/maven_local')
+            repository(url: 'file:./../../../wesee/wesee-android/local_repo')
+
         }
     }
 }
 
-version = "1.0.4"
+version = "1.0.5"
 group "com.bihe0832"
 archivesBaseName = 'GradleDependenciesCheck'
 

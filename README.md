@@ -132,8 +132,15 @@ http://blog.bihe0832.com/android-as-gradle-config.html)
 
 ## 参考及文章
 
-- 开发第一个gradle插件（待写）
+- [Gradle插件开发系列之总纲](https://blog.bihe0832.com/gradle_plugin_summary.html)
 
-- gradle插件调试方法（待写）
+- [开发第一个gradle插件](https://blog.bihe0832.com/gradle_plugin_new.html)
 
-- 如何发布gradle插件到gradle插件库（待写）
+- [gradle插件调试方法](https://blog.bihe0832.com/gradle_plugin_debug.html)
+
+- [发布gradle插件到开源库](https://blog.bihe0832.com/gradle_plugin_publish.html)
+
+- [发布开源代码到jcenter](https://blog.bihe0832.com/jcenter.html)
+
+
+

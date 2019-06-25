@@ -50,8 +50,10 @@ class CheckResult {
             for(version in versionList){
                 result = result + "\t"  + version.key + " found from: \n"
                 ArrayList sourceList = version.value
-                for (int i = 0; i < sourceList.size(); i++) {
-                    result = result + "\t \t " + sourceList.get(i) + "\n"
+                if(null != sourceList){
+                    for (int i = 0; i < sourceList.size(); i++) {
+                        result = result + "\t \t " + sourceList.get(i) + "\n"
+                    }
                 }
             }
             return result

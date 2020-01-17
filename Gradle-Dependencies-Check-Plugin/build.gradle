@@ -43,32 +43,15 @@ uploadArchives {
     }
 }
 
-version = "1.0.9"
-group "com.bihe0832"
-archivesBaseName = 'GradleDependenciesCheck'
-
-//发布到 https://plugins.gradle.org
-apply plugin: "com.gradle.plugin-publish"
-pluginBundle {
-    website = 'https://github.com/bihe0832/Gradle-Dependencies-Check'
-    vcsUrl = 'https://github.com/bihe0832/Gradle-Dependencies-Check.git'
-    description = 'A plugin to check wherether the configuration of your gradle dependencies have conflicts or not!'
-    tags = ['Android', 'Gradle', 'plugin']
-    plugins {
-        greetingsPlugin {
-            id = 'com.bihe0832.gradleDependenciesCheck' // 就是刚才定义属性文件时使用的ID
-            displayName = archivesBaseName // 添加依赖时使用的名字
-        }
-    }
-}
 
 //发布到jcenter
 apply plugin: 'com.novoda.bintray-release'//添加
 publish {
+    artifactId = 'GradleDependenciesCheck'//项目名称
+    repoName = "android"
+    publishVersion = '1.0.10'//版本号
     userOrg = 'bihe0832'
-    groupId = group
-    artifactId = archivesBaseName
-    publishVersion = version
-    desc = 'A plugin to check wherether the configuration of your gradle dependencies have conflicts or not!'
-    website = 'https://github.com/bihe0832/Gradle-Dependencies-Check'
+    groupId = "com.bihe0832.android"
+    desc = 'A plugin to check wherether the configuration of your gradle dependencies have conflicts or not!'//项目描述
+    website = 'https://github.com/bihe0832/Gradle-Dependencies-Check'//项目对应网站
 }

@@ -49,7 +49,7 @@ apply plugin: 'com.novoda.bintray-release'//添加
 publish {
     artifactId = 'GradleDependenciesCheck'//项目名称
     repoName = "android"
-    publishVersion = '1.0.10'//版本号
+    publishVersion = '1.0.11'//版本号
     userOrg = 'bihe0832'
     groupId = "com.bihe0832.android"
     desc = 'A plugin to check wherether the configuration of your gradle dependencies have conflicts or not!'//项目描述

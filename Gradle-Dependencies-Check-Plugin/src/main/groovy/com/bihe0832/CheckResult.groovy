@@ -18,9 +18,9 @@ class CheckResult {
 //        println("groupAndId:" + groupAndId + "version:" + version + " found from:" + source)
 //        println("CheckResult:" + this.toString())
         //该依赖已经存在
-        if(null != sGroupList && sGroupList.containsKey(groupAndId)){
+        if(null != sGroupList && sGroupList.containsKey(groupAndId) && null != sGroupList.get(groupAndId)){
             // 有相同版本的依赖已经存在
-            if(null != sGroupList.get(groupAndId) && sGroupList.get(groupAndId).containsKey(version)){
+            if(sGroupList.get(groupAndId).containsKey(version)){
                 if(!sGroupList.get(groupAndId).get(version).contains(source)){
                     sGroupList.get(groupAndId).get(version).add(source)
                 }

@@ -15,7 +15,7 @@
 		        jcenter()
 		    }
 		    dependencies {
-		        classpath "com.bihe0832:GradleDependenciesCheck:1.0.2"
+		        classpath "com.bihe0832:GradleDependenciesCheck:1.1.0"
 		    }
 		}
 
@@ -34,7 +34,12 @@
 		         *  1 以warning形式在命令行提示
 		         *  2 直接编辑报错，并提示错误
 		         */
-		        showResultType = 2
+		        showResultType = 1
+		        /**
+		         * 检查需要排除的检查范围
+		         *  String 形式添加跳过检查的插件的GroupID，多个用分号分隔
+		         */
+		        excludePackage ="com.android.support;org.jetbrains.kotlin"
 		    }
 		    /************************** 应用插件 End ***********************/
 		

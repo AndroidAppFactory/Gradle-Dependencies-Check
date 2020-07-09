@@ -25,7 +25,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
-        classpath "com.bihe0832.android:GradleDependenciesCheck:1.0.11"
+        classpath "com.bihe0832.android:GradleDependenciesCheck:1.1.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 
@@ -44,6 +44,7 @@ subprojects {
          *  2 直接编辑报错，并提示错误
          */
         showResultType = 1
+        excludePackage ="com.android.support;org.jetbrains.kotlin"
     }
     /************************** 应用插件 End ***********************/
 

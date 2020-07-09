@@ -38,5 +38,6 @@ android {
 dependencies {
     implementation 'com.android.support:support-v4:27.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'com.bihe0832.android:lib-utils-common:1.2.5'
 }
 

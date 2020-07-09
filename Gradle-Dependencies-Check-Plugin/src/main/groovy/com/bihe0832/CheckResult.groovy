@@ -15,7 +15,7 @@ class CheckResult {
     static ArrayList<String> sGroupsHasBeenShowed = new ArrayList<>()
 
     static boolean dependenciesIsOk(String groupAndId, String version, String source){
-//        println("groupAndId:" + groupAndId + "version:" + version + " found from:" + source)
+//        println("groupAndId:" + groupAndId + "; version:" + version + " found from:" + source)
 //        println("CheckResult:" + this.toString())
         //该依赖已经存在
         if(null != sGroupList && sGroupList.containsKey(groupAndId) && null != sGroupList.get(groupAndId)){

@@ -21,6 +21,7 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
     void apply(Project project) {
         project.extensions.create(PROTERTY_NAME, GradleDependenciesCheckPluginExtension)
         def extension = project.extensions.findByName(PROTERTY_NAME) as GradleDependenciesCheckPluginExtension
+
         CheckResult.sGroupsHasBeenShowed.clear()
         CheckResult.sGroupList.clear()
 
@@ -32,7 +33,9 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
             println(TASK_LIST_DEPENDENCIE + " start ...")
 
             project.configurations.each { org.gradle.api.artifacts.Configuration conf ->
-                if(canBeResolved(conf) && needResolved(conf)) {
+                if (canBeResolved(conf) && needResolved(conf)) {
+                    String[] excludePackageArray = extension.excludePackage.split(";")
+//                    println("excludePackageArray size:" + excludePackageArray.size())
                     conf.incoming.resolutionResult.root.dependencies.each { DependencyResult dr ->
                         if (dr instanceof ResolvedDependencyResult) {
 //                            dr.selected.moduleVersion:com.android.support:support-v4:27.0.1
@@ -45,11 +48,20 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
 //                            dr.selected.moduleVersion:com.android.support:support-v4:27.0.1
                             String groupAndId = dr.selected.moduleVersion.module
                             String version = dr.selected.moduleVersion.version
-                            String source = project.name + ":"+ groupAndId + ":"+ version
-                            if(null != version && !version.equalsIgnoreCase("unspecified") && version.length() > 0){
-                                checkDependencies(extension.showResultType ,source, dr)
+                            String source = ""
+                            if (version.equalsIgnoreCase("unspecified")) {
+                                source = groupAndId
+                            } else {
+                                source = project.name + ":" + groupAndId + ":" + version
                             }
-                        }else{
+                            if (null != version && version.length() > 0) {
+                                try {
+                                    checkDependencies(extension.showResultType, excludePackageArray, source, dr)
+                                } catch(Exception e){
+                                    e.printStackTrace()
+                                }
+                            }
+                        } else {
 //                            println("Could not resolve $dr.requested.displayName")
                         }
                     }
@@ -61,9 +73,9 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
 
 
     static boolean needResolved(Configuration conf) {
-        if(conf.name == "lintClassPath"){
+        if (conf.name == "lintClassPath") {
             return false
-        }else {
+        } else {
             return true
         }
     }
@@ -78,16 +90,31 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
         }
     }
 
-    static void checkDependencies(int type, String source, DependencyResult result) {
+    static void checkDependencies(int type, String[] excludePackageArray, String source, DependencyResult result) {
         if (result instanceof ResolvedDependencyResult) {
             ResolvedDependencyResult dr = result
             String groupAndId = dr.selected.moduleVersion.module
             String version = dr.selected.moduleVersion.version
-            if(null != version && !version.equalsIgnoreCase("unspecified") && version.length() > 0){
-                CheckResult.doCheck(type,groupAndId,version,source)
+            if (null != version && version.length() > 0) {
+                boolean canSkip = false
+                for (int i = 0; i < excludePackageArray.size(); i++) {
+//                    println("check groupAndId:" + groupAndId + ";excludePackageArray " + i + ":" + excludePackageArray.getAt(i)+ ";source " + source)
+                    if (groupAndId.startsWith(excludePackageArray.getAt(i))) {
+                        canSkip = true
+                        break
+                    }
+                }
+                if (!canSkip) {
+                    CheckResult.doCheck(type, groupAndId, version, source)
+                }
             }
             dr.selected.dependencies.each { DependencyResult subDep ->
-                checkDependencies(type ,source, subDep)
+                if(subDep instanceof ResolvedDependencyResult){
+                    String newSource = source + ":" + subDep.selected.moduleVersion.module
+                    checkDependencies(type, excludePackageArray, newSource, subDep)
+                }else{
+                    checkDependencies(type, excludePackageArray, source, subDep)
+                }
             }
         } else {
 //            println("Could not resolve $result.requested.displayName")

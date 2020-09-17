@@ -25,19 +25,24 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
         CheckResult.sGroupsHasBeenShowed.clear()
         CheckResult.sGroupList.clear()
 
-        project.task(TASK_TEST_PLUGIN) << {
-            println "hello, world! , GradleDependenciesCheckPlugin is ok !!!"
+        project.task(TASK_TEST_PLUGIN) {
+            group = "zixieDev"
+            doLast {
+                println "hello, world! , GradleDependenciesCheckPlugin is ok !!!"
+            }
         }
 
-        project.task(TASK_LIST_DEPENDENCIE) << {
-            println(TASK_LIST_DEPENDENCIE + " start ...")
+        project.task(TASK_LIST_DEPENDENCIE) {
+            group = "zixieDev"
+            doLast {
+                println(TASK_LIST_DEPENDENCIE + " start ...")
 
-            project.configurations.each { org.gradle.api.artifacts.Configuration conf ->
-                if (canBeResolved(conf) && needResolved(conf)) {
-                    String[] excludePackageArray = extension.excludePackage.split(";")
+                project.configurations.each { org.gradle.api.artifacts.Configuration conf ->
+                    if (canBeResolved(conf) && needResolved(conf)) {
+                        String[] excludePackageArray = extension.excludePackage.split(";")
 //                    println("excludePackageArray size:" + excludePackageArray.size())
-                    conf.incoming.resolutionResult.root.dependencies.each { DependencyResult dr ->
-                        if (dr instanceof ResolvedDependencyResult) {
+                        conf.incoming.resolutionResult.root.dependencies.each { DependencyResult dr ->
+                            if (dr instanceof ResolvedDependencyResult) {
 //                            dr.selected.moduleVersion:com.android.support:support-v4:27.0.1
 //                            dr.selected.moduleVersion.group:com.android.support
 //                            dr.selected.moduleVersion.name:support-v4
@@ -46,28 +51,29 @@ class GradleDependenciesCheckPlugin implements Plugin<Project> {
 //                            dr.selected.moduleVersion.module.group:com.android.support
 //                            dr.selected.moduleVersion.module.name:support-v4
 //                            dr.selected.moduleVersion:com.android.support:support-v4:27.0.1
-                            String groupAndId = dr.selected.moduleVersion.module
-                            String version = dr.selected.moduleVersion.version
-                            String source = ""
-                            if (version.equalsIgnoreCase("unspecified")) {
-                                source = groupAndId
-                            } else {
-                                source = project.name + ":" + groupAndId + ":" + version
-                            }
-                            if (null != version && version.length() > 0) {
-                                try {
-                                    checkDependencies(extension.showResultType, excludePackageArray, source, dr)
-                                } catch(Exception e){
-                                    e.printStackTrace()
+                                String groupAndId = dr.selected.moduleVersion.module
+                                String version = dr.selected.moduleVersion.version
+                                String source = ""
+                                if (version.equalsIgnoreCase("unspecified")) {
+                                    source = groupAndId
+                                } else {
+                                    source = project.name + ":" + groupAndId + ":" + version
                                 }
-                            }
-                        } else {
+                                if (null != version && version.length() > 0) {
+                                    try {
+                                        checkDependencies(extension.showResultType, excludePackageArray, source, dr)
+                                    } catch(Exception e){
+                                        e.printStackTrace()
+                                    }
+                                }
+                            } else {
 //                            println("Could not resolve $dr.requested.displayName")
+                            }
                         }
                     }
                 }
+                println(TASK_LIST_DEPENDENCIE + " finished Successfully!")
             }
-            println(TASK_LIST_DEPENDENCIE + " finished Successfully!")
         }
     }
 

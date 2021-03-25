@@ -12,10 +12,9 @@
 	
 	    buildscript {
 	       repositories {
-		        jcenter()
-		    }
+		        maven { url "https://repo1.maven.org/maven2" }		    }
 		    dependencies {
-		        classpath "com.bihe0832:GradleDependenciesCheck:1.1.0"
+		        classpath "com.bihe0832:GradleDependenciesCheck:4.1.0"
 		    }
 		}
 
@@ -123,8 +122,7 @@ http://blog.bihe0832.com/android-as-gradle-config.html)
 
 		    repositories {
 			        maven { url './libs/maven_local' }
-			//        jcenter()
-			}
+			//        maven { url "https://repo1.maven.org/maven2" }			}
 	- 在Sample运行clean，查看效果
 
 ## 后续规划

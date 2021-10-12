@@ -14,7 +14,7 @@
 	       repositories {
 		        maven { url "https://repo1.maven.org/maven2" }		    }
 		    dependencies {
-		        classpath "com.bihe0832:GradleDependenciesCheck:4.1.0"
+		        classpath "com.bihe0832.android:GradleDependenciesCheck:4.1.0"
 		    }
 		}
 

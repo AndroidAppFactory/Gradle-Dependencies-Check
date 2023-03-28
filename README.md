@@ -129,8 +129,6 @@ http://blog.bihe0832.com/android-as-gradle-config.html)
 
 - 检查所有依赖的最新版，然后推荐更新
 
-- 推荐把support等相关库都切换到了androidx
-
 - 对于一些需要版本对应的，提示对应。例如：databing compile依赖的版本号与Android Gradle Plugin版本保持一致等
 
 ## 参考及文章
